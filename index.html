@@ -3,669 +3,572 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RemoteTsk Local Community & Event Marketing Blueprint</title>
+    <title>RemoteTsk Studio - Companion Interactive Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #eab308;
+            --accent-hover: #ca8a04;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --border: #e2e8f0;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        html {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            scroll-behavior: smooth;
         }
 
         body {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%);
-            color: #1a202c;
+            background-color: #f1f5f9;
+            color: var(--text-dark);
             line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .badge-bestseller {
+            display: inline-block;
+            background: var(--accent);
+            color: #020617;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin: 30px auto;
             padding: 0 20px;
         }
 
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            border: 1px solid var(--border);
+            padding: 30px;
+            margin-bottom: 30px;
         }
 
-        header .container {
-            padding: 24px 20px;
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 12px;
         }
 
-        h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #10b981 0%, #2563eb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Form Controls */
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            background-color: white;
+            color: var(--text-dark);
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 20px;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%23475569'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpolyline%20points='6%209%2012%2015%2018%209'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        select:focus {
+            border-color: var(--accent);
+        }
+
+        /* Interactive Display Box */
+        .display-box {
+            background-color: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+            margin-top: 15px;
+        }
+
+        .display-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .display-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .display-item h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .display-item p {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Calculator Styles */
+        .slider-container {
+            margin-bottom: 25px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: #64748b;
-        }
-
-        /* Main Content */
-        main {
-            padding: 48px 0;
-        }
-
-        section {
-            margin-bottom: 60px;
-        }
-
-        h2 {
-            font-size: 1.8rem;
+        .slider-value {
             font-weight: 700;
-            margin-bottom: 24px;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            color: var(--primary);
+            background-color: #fef08a;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
         }
 
-        h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #334155;
-        }
-
-        /* Cards */
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-            border: 1px solid rgba(59, 130, 246, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
-            border-color: rgba(59, 130, 246, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .card.highlight {
-            background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
-            border-color: #10b981;
-        }
-
-        .card.success {
-            background: linear-gradient(135deg, #f0fdf4 0%, #f0fdf4 100%);
-            border-color: #10b981;
-        }
-
-        /* Grid */
-        .grid {
-            display: grid;
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .grid-2 {
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        }
-
-        .grid-3 {
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        }
-
-        /* Product Card */
-        .product-card {
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #cbd5e1;
+            outline: none;
+            -webkit-appearance: none;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .product-card.expanded {
-            grid-column: 1 / -1;
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--accent);
+            cursor: pointer;
+            transition: transform 0.1s;
         }
 
-        .product-header {
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .calc-result {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 25px;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .calc-result-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        .calc-result-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .calc-result-sub {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        /* Tabs Styles */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .channel-list {
+            list-style: none;
+        }
+
+        .channel-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 12px;
+            align-items: center;
+            gap: 15px;
         }
 
-        .product-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #1e293b;
+        .channel-item:last-child {
+            border-bottom: none;
         }
 
-        .product-desc {
-            font-size: 0.95rem;
-            color: #64748b;
-            margin-bottom: 12px;
+        .channel-info h4 {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.05rem;
         }
 
-        .badge {
-            display: inline-block;
-            background: #f1f5f9;
-            color: #334155;
-            padding: 4px 12px;
+        .channel-info p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .channel-badge {
+            background-color: #f0fdf4;
+            color: #16a34a;
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.8rem;
+            font-weight: 600;
             white-space: nowrap;
         }
 
-        .badge.tier1 {
-            background: #fef08a;
-            color: #854d0e;
-        }
-
-        .badge.tier2 {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .product-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .detail-item {
-            padding: 12px;
-            background: #f8fafc;
-            border-radius: 8px;
-        }
-
-        .detail-label {
+        .footer-note {
+            text-align: center;
+            color: var(--text-light);
             font-size: 0.85rem;
-            color: #64748b;
+            margin-top: 40px;
+        }
+
+        .footer-note a {
+            color: var(--primary);
+            text-decoration: underline;
             font-weight: 600;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .detail-value {
-            font-size: 0.95rem;
-            color: #1e293b;
-        }
-
-        .detail-value.highlight {
-            color: #2563eb;
-            font-weight: 600;
-        }
-
-        .detail-value.success {
-            color: #10b981;
-            font-weight: 600;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .stat-box {
-            text-align: center;
-            padding: 12px;
-            background: #f1f5f9;
-            border-radius: 8px;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .stat-value.highlight {
-            color: #2563eb;
-        }
-
-        /* Charts */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin-bottom: 24px;
-        }
-
-        /* Launch Sequence */
-        .phase-card {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .phase-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 8px;
-        }
-
-        .phase-timeline {
-            font-size: 0.85rem;
-            color: #64748b;
-            margin-bottom: 12px;
-        }
-
-        .phase-tasks {
-            list-style: none;
-        }
-
-        .phase-tasks li {
-            font-size: 0.9rem;
-            color: #475569;
-            margin-bottom: 8px;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .phase-tasks li:before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: #10b981;
-            font-weight: bold;
-        }
-
-        /* Advantages */
-        .advantage-card {
-            text-align: center;
-        }
-
-        .advantage-icon {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-        }
-
-        .advantage-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #1e293b;
-        }
-
-        .advantage-desc {
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        /* Insights */
-        .insights-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        .insight-list {
-            list-style: none;
-        }
-
-        .insight-list li {
-            margin-bottom: 12px;
-            padding-left: 24px;
-            position: relative;
-            color: #475569;
-            font-size: 0.95rem;
-        }
-
-        .insight-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #10b981;
-            font-weight: bold;
-        }
-
-        .insight-list.negative li:before {
-            content: "✗";
-            color: #ef4444;
-        }
-
-        /* Target Audiences */
-        .audience-item {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            padding: 12px;
-            background: #f1f5f9;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            color: #475569;
-        }
-
-        .audience-item:before {
-            content: "→";
-            color: #2563eb;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        /* CTA */
-        .cta-section {
-            background: linear-gradient(135deg, #10b981 0%, #2563eb 100%);
-            color: white;
-            border-radius: 12px;
-            padding: 48px 24px;
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .cta-section h2 {
-            color: white;
-            margin-bottom: 16px;
-        }
-
-        .cta-section p {
-            font-size: 1.05rem;
-            margin-bottom: 24px;
-            opacity: 0.95;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn {
-            display: inline-block;
-            background: white;
-            color: #2563eb;
-            padding: 12px 32px;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Footer */
-        footer {
-            background: white;
-            border-top: 1px solid #e2e8f0;
-            padding: 32px 0;
-            text-align: center;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            h2 {
-                font-size: 1.4rem;
-            }
-
-            .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-            }
-
-            .insights-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .product-details {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-section {
-                padding: 32px 20px;
-            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>🚀 RemoteTsk Local Community & Event Marketing</h1>
-            <p class="subtitle">Think Outside the Box: Connect with Local Agencies, Events, & Organizations</p>
+
+    <div class="header">
+        <span class="badge-bestseller">🏆 Bestseller Companion Tool</span>
+        <h1>RemoteTsk Interactive Hub</h1>
+        <p>Your hands-on digital companion to "The Lifestyle-First Digital Marketing Blueprint"</p>
+    </div>
+
+    <div class="container">
+
+        <!-- SECTION 1: INTERACTIVE AUDIT -->
+        <div class="card">
+            <div class="card-title">
+                <span>🔍</span> Interactive Lifestyle Audit
+            </div>
+            
+            <label for="niche-select">Choose Your Local Business Niche:</label>
+            <select id="niche-select" onchange="updateLifestyleAudit()">
+                <option value="bakery">🥐 Local Bakery / Café</option>
+                <option value="fitness">🧘 Fitness Coach / Yoga Studio</option>
+                <option value="contractor">🛠️ Home Contractor / Handyman</option>
+                <option value="tutor">✏️ Private Tutor / Music Teacher</option>
+                <option value="pet">🐕 Pet Groomer / Dog Walker</option>
+            </select>
+
+            <div class="display-box">
+                <h3 id="audit-title" style="margin-bottom: 10px; color: var(--primary);">🥐 Local Bakery / Café Target Profile</h3>
+                <p id="audit-intro" style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 15px; font-style: italic;">
+                    "We aren't just selling pastries; we are selling a morning routine and a weekend family reward."
+                </p>
+                
+                <div class="display-grid">
+                    <div class="display-item">
+                        <h4>Target Buyer Persona</h4>
+                        <p id="audit-persona">Busy Parents (30-45) & Remote Professionals seeking a comfort escape.</p>
+                    </div>
+                    <div class="display-item">
+                        <h4>Daily Lifestyle Routine</h4>
+                        <p id="audit-routine">School drop-offs, rushed morning commutes, mid-afternoon work slumps.</p>
+                    </div>
+                    <div class="display-item">
+                        <h4>Their Core Stressors</h4>
+                        <p id="audit-stress">Rushed schedules, lack of quality family time, high cost of convenience.</p>
+                    </div>
+                    <div class="display-item">
+                        <h4>Best Lifestyle Workaround</h4>
+                        <p id="audit-workaround">Partner with local school PTAs to sponsor parent-teacher mornings; list weekend family workshops on local community calendars.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </header>
 
-    <main>
-        <div class="container">
-            <!-- Mission Statement -->
-            <section>
-                <div class="card highlight">
-                    <h2>❤️ Your Unique Value Proposition</h2>
-                    <p style="font-size: 1.1rem; font-weight: 500; margin-bottom: 16px;">
-                        "Helping small businesses step into their buyer's shoes and master local community-driven marketing."
-                    </p>
-                    <p style="color: #64748b; margin-bottom: 12px;">
-                        Most local businesses only think about posting on social media, but they completely miss local city calendars, veterans groups, school PTAs, and community boards. This blueprint helps them find creative, budget-friendly workarounds to integrate directly into their customers' lifestyles.
-                    </p>
+        <!-- SECTION 2: LEAD CALCULATOR -->
+        <div class="card">
+            <div class="card-title">
+                <span>📊</span> Eventbrite Lead-Gen Calculator
+            </div>
+            <p style="color: var(--text-light); margin-bottom: 20px; font-size: 0.95rem;">
+                Estimate how many local email leads and potential customers you can capture using the <strong>"Open Call Registration Hack"</strong> detailed in Module 2.
+            </p>
+
+            <div class="slider-container">
+                <div class="slider-header">
+                    <label for="slider-attendees">Target Event Registrations (per month):</label>
+                    <span class="slider-value" id="val-attendees">250</span>
                 </div>
-            </section>
-
-            <!-- Market Insights -->
-            <section>
-                <h2>📊 Local Marketing Trends</h2>
-                <div class="grid grid-2">
-                    <div class="card">
-                        <h3>Effective Channels for Local Businesses</h3>
-                        <div class="chart-container">
-                            <canvas id="categoryChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>Why Standard Social Media Ads Fail Local Shops</h3>
-                        <div class="chart-container">
-                            <canvas id="pricingChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Core Product Deep-Dive -->
-            <section>
-                <h2>📦 Featured Product Blueprint</h2>
-                <div class="card success">
-                    <h3>The Local Community & Event Marketing Blueprint</h3>
-                    <p style="margin-bottom: 16px; color: #475569;">
-                        A step-by-step workbook and outreach system that helps small businesses partner with local city agencies, veterans groups, educational institutions, and list on regional event calendars.
-                    </p>
-                    <div class="product-details" style="display: grid;">
-                        <div class="detail-item">
-                            <div class="detail-label">The Lifestyle Audit</div>
-                            <div class="detail-value">A 24-hour map to understand your customer's family, friends, and lifestyle routines.</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Eventbrite Lead-Gen Hack</div>
-                            <div class="detail-value">A secret workaround to build a database of millions using "Open Call" registrations.</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Agency Outreach</div>
-                            <div class="detail-value">Cold outreach templates for Veterans groups, public schools, and city family services.</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Price Point</div>
-                            <div class="detail-value highlight">$19.99 (high value)</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Recommended Launch Sequence -->
-            <section>
-                <h2>📈 Recommended Launch Sequence</h2>
-                <div class="grid grid-3">
-                    <div class="card">
-                        <div class="phase-title">Phase 1</div>
-                        <div class="phase-timeline">Next 2 weeks</div>
-                        <ul class="phase-tasks">
-                            <li>List the Local Community Marketing Blueprint on Etsy</li>
-                            <li>Create a 1-page freebie checklist for lead generation</li>
-                        </ul>
-                    </div>
-                    <div class="card">
-                        <div class="phase-title">Phase 2</div>
-                        <div class="phase-timeline">Weeks 3-4</div>
-                        <ul class="phase-tasks">
-                            <li>Add outreach email template bundles as a $9.99 add-on</li>
-                            <li>Launch local event planning calendar template</li>
-                        </ul>
-                    </div>
-                    <div class="card">
-                        <div class="phase-title">Phase 3</div>
-                        <div class="phase-timeline">Month 2</div>
-                        <ul class="phase-tasks">
-                            <li>Bundle with your Notion Small Business OS</li>
-                            <li>Reach out to local business bloggers for reviews</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Key Insights -->
-            <section>
-                <h2>💡 Thinking Outside the Box</h2>
-                <div class="card">
-                    <div class="insights-grid">
-                        <div>
-                            <h3>What Works (Lifestyle-First):</h3>
-                            <ul class="insight-list">
-                                <li>Mapping your buyer's family, friends, and stressors</li>
-                                <li>Free listings on local city and state event boards</li>
-                                <li>Partnering with PTAs and School Districts</li>
-                                <li>Reaching veterans through local VFW & VA groups</li>
-                                <li>Hosting free educational workshops at local libraries</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3>What Doesn't Work (Generic):</h3>
-                            <ul class="insight-list negative">
-                                <li>Shouting "Buy my product!" on social media</li>
-                                <li>Paying for expensive local newspaper ads</li>
-                                <li>Ignoring the daily routines of your customers</li>
-                                <li>Spamming community groups with links</li>
-                                <li>Relying solely on digital algorithms</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CTA -->
-            <div class="cta-section">
-                <h2>Ready to Expand Your Etsy Store?</h2>
-                <p>This blueprint is fully written and ready for you. Format it in Canva, use Poppins and Inter font pairings, and launch your next bestseller on Etsy!</p>
-                <button class="btn" onclick="window.print()">📥 Download/Print Blueprint</button>
+                <input type="range" id="slider-attendees" min="50" max="1000" step="10" value="250" oninput="calculateLeads()">
             </div>
 
-            <!-- Footer -->
-            <footer>
-                <p>This research is based on 2026 local business marketing trends and community outreach performance metrics.</p>
-            </footer>
+            <div class="slider-container">
+                <div class="slider-header">
+                    <label for="slider-conversion">Email Opt-In Rate (using Freebie):</label>
+                    <span class="slider-value" id="val-conversion">40%</span>
+                </div>
+                <input type="range" id="slider-conversion" min="10" max="80" step="5" value="40" oninput="calculateLeads()">
+            </div>
+
+            <div class="slider-container">
+                <div class="slider-header">
+                    <label for="slider-value">Estimated Customer Value (Annual):</label>
+                    <span class="slider-value" id="val-value">$150</span>
+                </div>
+                <input type="range" id="slider-value" min="20" max="1000" step="5" value="150" oninput="calculateLeads()">
+            </div>
+
+            <div class="calc-result">
+                <div class="calc-result-title">Estimated Monthly Email Leads Captured</div>
+                <div class="calc-result-value" id="result-leads">100</div>
+                <div class="calc-result-sub" id="result-revenue">Potential Annual Pipeline: $15,000 / year</div>
+            </div>
         </div>
-    </main>
+
+        <!-- SECTION 3: CHANNEL EXPLORER -->
+        <div class="card">
+            <div class="card-title">
+                <span>🗺️</span> No-Budget Local Channel Explorer
+            </div>
+            <p style="color: var(--text-light); margin-bottom: 20px; font-size: 0.95rem;">
+                Filter and discover the best zero-cost local marketing channels to place your business exactly where your buyers are already looking.
+            </p>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('all', this)">All Channels</button>
+                <button class="tab-btn" onclick="switchTab('community', this)">🏫 Community Boards</button>
+                <button class="tab-btn" onclick="switchTab('digital', this)">📱 Local Digital</button>
+                <button class="tab-btn" onclick="switchTab('partnerships', this)">🤝 Local Partnerships</button>
+            </div>
+
+            <ul class="channel-list" id="channel-list-container">
+                <!-- Will be dynamically populated -->
+            </ul>
+        </div>
+
+        <div class="footer-note">
+            <p>Designed for RemoteTsk Studio • support@remotetsk.com</p>
+            <p style="margin-top: 5px; font-size: 0.8rem; opacity: 0.7;">This interactive tool is part of the digital bonuses of "The Lifestyle-First Digital Marketing Blueprint".</p>
+        </div>
+
+    </div>
 
     <script>
-        // Charts
-        function initCharts() {
-            // Category Chart
-            const categoryCtx = document.getElementById('categoryChart');
-            if (categoryCtx) {
-                new Chart(categoryCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Local Calendars', 'School PTAs', 'Veterans Groups', 'Library Workshops', 'Social Media'],
-                        datasets: [{
-                            data: [35, 25, 18, 12, 10],
-                            backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b'],
-                            borderColor: 'white',
-                            borderWidth: 2,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                            }
-                        }
-                    }
-                });
+        // Lifestyle Audit Data
+        const lifestyleData = {
+            bakery: {
+                title: "🥐 Local Bakery / Café Target Profile",
+                intro: "\"We aren't just selling pastries; we are selling a morning routine and a weekend family reward.\"",
+                persona: "Busy Parents (30-45) & Remote Professionals seeking a comfort escape.",
+                routine: "School drop-offs, rushed morning commutes, mid-afternoon work slumps.",
+                stress: "Rushed schedules, lack of quality family time, high cost of convenience.",
+                workaround: "Partner with local school PTAs to sponsor parent-teacher mornings; list weekend family workshops on local community calendars."
+            },
+            fitness: {
+                title: "🧘 Fitness Coach / Yoga Studio Target Profile",
+                intro: "\"We aren't just selling workouts; we are selling stress relief and self-care boundaries.\"",
+                persona: "Stressed working professionals, new mothers, and retirees.",
+                routine: "Desk-bound sitting for 8+ hours, evening screen scrolling, weekend chores.",
+                stress: "Physical exhaustion, chronic back pain, mental burnout, lack of 'me time'.",
+                workaround: "Offer free 15-minute chair stretching workshops at the local public library; list free 'Sunset Community Yoga' on city parks calendars."
+            },
+            contractor: {
+                title: "🛠️ Home Contractor / Handyman Target Profile",
+                intro: "\"We aren't just selling repairs; we are selling safety, trust, and weekend relaxation.\"",
+                persona: "First-time homeowners, elderly residents, and busy dual-income families.",
+                routine: "Long working hours, maintaining a household, managing children's schedules.",
+                stress: "Leaky faucets, outdated spaces, fear of being overcharged, no free time to DIY.",
+                workaround: "Post educational 'Home Winterization Checklists' on local community center physical boards; sponsor a local youth sports team."
+            },
+            tutor: {
+                title: "✏️ Private Tutor / Music Teacher Target Profile",
+                intro: "\"We aren't just selling lessons; we are selling confidence, stress-free homework, and bright futures.\"",
+                persona: "Parents of school-aged children (6-18) worried about academic progress.",
+                routine: "After-school activity taxiing, helping with stressful homework, parent-teacher conferences.",
+                stress: "Child falling behind, math homework frustration, high cost of learning centers.",
+                workaround: "Write helpful study-tip columns for school PTA newsletters; host a free 'How to Stop Homework Struggles' workshop at local community centers."
+            },
+            pet: {
+                title: "🐕 Pet Groomer / Dog Walker Target Profile",
+                intro: "\"We aren't just walking dogs; we are selling peace of mind and guilt-free long workdays.\"",
+                persona: "Remote workers who travel, busy families, and elderly pet owners.",
+                routine: "Working 9-to-5, running kids to sports, traveling on weekends.",
+                stress: "Guilt over leaving pets alone, muddy paws on clean rugs, pet behavioral issues.",
+                workaround: "Partner with local veterinary offices or pet supply stores to offer free nail-trim days; post flyer cards on local neighborhood park boards."
             }
+        };
 
-            // Pricing Chart
-            const pricingCtx = document.getElementById('pricingChart');
-            if (pricingCtx) {
-                new Chart(pricingCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['High Ad Cost', 'Low Trust', 'Ad Blockers', 'Wrong Audience', 'No Local Intent'],
-                        datasets: [{
-                            label: 'Local Shop Pain Points (%)',
-                            data: [45, 38, 30, 28, 25],
-                            backgroundColor: '#ef4444',
-                            borderRadius: 8,
-                            borderSkipped: false,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        indexAxis: 'y',
-                        plugins: {
-                            legend: {
-                                display: false,
-                            }
-                        },
-                        scales: {
-                            x: {
-                                beginAtZero: true,
-                                max: 50,
-                            }
-                        }
-                    }
-                });
-            }
+        // Channels Data
+        const channels = [
+            { name: "Public Library Workshops", desc: "Host free educational workshops. Libraries promote your event for free in their newsletter.", cat: "community", cost: "FREE" },
+            { name: "School PTA Newsletters", desc: "Sponsor or write helpful columns. Reaches local families directly in their inbox.", cat: "community", cost: "FREE / Low" },
+            { name: "City & County Event Calendars", desc: "List your free public community events. Highly trusted by local residents.", cat: "digital", cost: "FREE" },
+            { name: "Neighborhood Facebook Groups", desc: "Engage in local conversations without spamming. Offer genuine advice first.", cat: "digital", cost: "FREE" },
+            { name: "Nextdoor Business Page", desc: "Claim your free local business profile and get recommended by actual neighbors.", cat: "digital", cost: "FREE" },
+            { name: "Local Veterans Associations (VFW)", desc: "Offer veteran discounts or host community events. High-trust network.", cat: "partnerships", cost: "FREE" },
+            { name: "Welcome-to-Town Welcome Kits", desc: "Partner with local realtors to place your coupon flyer in welcome bags for new residents.", cat: "partnerships", cost: "Low Cost" },
+            { name: "Non-Competing Business Cross-Promo", desc: "A bakery placing coupons at a flower shop, and vice versa. Doubles your local reach.", cat: "partnerships", cost: "FREE" }
+        ];
+
+        // Update Lifestyle Audit Display
+        function updateLifestyleAudit() {
+            const selector = document.getElementById('niche-select');
+            const selectedNiche = selector.value;
+            const data = lifestyleData[selectedNiche];
+
+            document.getElementById('audit-title').innerText = data.title;
+            document.getElementById('audit-intro').innerText = data.intro;
+            document.getElementById('audit-persona').innerText = data.persona;
+            document.getElementById('audit-routine').innerText = data.routine;
+            document.getElementById('audit-stress').innerText = data.stress;
+            document.getElementById('audit-workaround').innerText = data.workaround;
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            initCharts();
-        });
+        // Calculate Leads
+        function calculateLeads() {
+            const attendees = parseInt(document.getElementById('slider-attendees').value);
+            const conversion = parseInt(document.getElementById('slider-conversion').value) / 100;
+            const value = parseInt(document.getElementById('slider-value').value);
+
+            // Update slider labels
+            document.getElementById('val-attendees').innerText = attendees;
+            document.getElementById('val-conversion').innerText = (conversion * 100) + '%';
+            document.getElementById('val-value').innerText = '$' + value;
+
+            // Calculate results
+            const leads = Math.round(attendees * conversion);
+            const annualRevenue = leads * 12 * (value * 0.05); // assuming 5% of leads become annual customers
+
+            document.getElementById('result-leads').innerText = leads + " leads / mo";
+            document.getElementById('result-revenue').innerText = "Potential Annual Pipeline: $" + annualRevenue.toLocaleString() + " / year";
+        }
+
+        // Switch Tabs for Channel Explorer
+        function switchTab(category, btnElement) {
+            // Update active button styling
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Render filtered channels
+            renderChannels(category);
+        }
+
+        // Render Channels List
+        function renderChannels(category) {
+            const container = document.getElementById('channel-list-container');
+            container.innerHTML = '';
+
+            const filtered = category === 'all' 
+                ? channels 
+                : channels.filter(c => c.cat === category);
+
+            filtered.forEach(c => {
+                const li = document.createElement('li');
+                li.className = 'channel-item';
+                li.innerHTML = `
+                    <div class="channel-info">
+                        <h4>${c.name}</h4>
+                        <p>${c.desc}</p>
+                    </div>
+                    <span class="channel-badge">${c.cost}</span>
+                `;
+                container.appendChild(li);
+            });
+        }
+
+        // Initialize Page
+        window.onload = function() {
+            updateLifestyleAudit();
+            calculateLeads();
+            renderChannels('all');
+        };
     </script>
 </body>
 </html>
